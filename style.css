@@ -56,3 +56,39 @@ footer {
   margin: 30px;
   align-items: center;
 }
+
+/* filtering style */
+.searchbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+
+  background: #ffffff;
+  padding: 12px 18px;
+  margin-bottom: 20px;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.searchbox-container label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+#search {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+#episode-count {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
