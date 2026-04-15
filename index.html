@@ -9,22 +9,28 @@
   </head>
 
   <body>
+    <header class="header">
+      <h1>Game of Thrones</h1>
+    </header>
+
     <main id="root">
-      <template id="movie-card">
-        <section>
-          <h1>
-            <span class="episode-name"> </span>-
-            <span class="season-No"> </span>
-          </h1>
-          <h2 class="episode-no"></h2>
-          <h2 class="episode-code"></h2>
-          <img src="./hh" alt="movie poster" />
-          <details id="movie-details">
-            <summary class="movie-summary"></summary>
-          </details>
-        </section>
+
+      <!-- Episodes container -->
+      <section id="episode-container" class="episode-grid"></section>
+
+      <!-- Template -->
+      <template id="episode-card">
+        <article class="episode-card">
+          <h3 class="episode-title">
+            <span class="episode-name"></span>
+            <span class="episode-code"></span>
+          </h3>
+          <img class="episode-image" alt="episode image" />
+          <p class="episode-summary"></p>
+        </article>
       </template>
     </main>
+
     <footer>
       <p>API Consumed from <a href="https://tvmaze.com/">TVMaze.com</a></p>
     </footer>
