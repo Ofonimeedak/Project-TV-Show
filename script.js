@@ -27,20 +27,29 @@ function render() {
   container.textContent = "";
 
   const term = searchBox.value.toLowerCase();
+  const selected = dropdown.value;
 
   const filteredEpisodes = episodes.filter((episode) => {
 
-    return (
+    const seasonNo = episode.season.toString().padStart(2, "0");
+    const episodeNo = episode.number.toString().padStart(2, "0");
+    const code = `${seasonNo}-${episodeNo}`;
+
+    const matchesSearch =
       episode.name.toLowerCase().includes(term) ||
       episode.summary.toLowerCase().includes(term)
-    )
+
+    const matchesDropdown =
+      selected === "" || selected === code;
+
+    return matchesSearch && matchesDropdown;
   });
 
   const episodeCards = filteredEpisodes.map(createEpisodeCard);
 
   container.append(...episodeCards);
 
-  if (term.length > 0) {
+  if (term.length > 0 || selected != "") {
     countEpisodes.textContent =
       `Displaying ${filteredEpisodes.length}/${episodes.length} episodes.`;
   } else {
@@ -53,5 +62,26 @@ searchBox.addEventListener("input", handleInput);
 function handleInput() {
   render();
 }
+
+// Dropdown filtering
+const dropdown = document.getElementById("episodes");
+
+const option = document.createElement("option");
+option.value = "";
+option.textContent = "All episodes";
+dropdown.appendChild(option);
+
+episodes.forEach((episode) => {
+  const option = document.createElement("option");
+
+  const seasonNo = episode.season.toString().padStart(2, "0");
+  const episodeNo = episode.number.toString().padStart(2, "0");
+  option.value = `${seasonNo}-${episodeNo}`;
+
+  option.textContent = `S${seasonNo}E${episodeNo} - ${episode.name}`;
+  dropdown.appendChild(option);
+});
+
+dropdown.addEventListener("change", render);
 
 render();
