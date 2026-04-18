@@ -45,6 +45,13 @@ function render() {
     return matchesSearch && matchesDropdown;
   });
 
+  if (filteredEpisodes.length === 0) {
+    const message = document.getElementById("message");
+    message.textContent = "Your search term is not matching any episodes. Try another term!"
+    message.style.textAlign = "center"
+    message.style.display = "block"
+  }
+
   const episodeCards = filteredEpisodes.map(createEpisodeCard);
 
   container.append(...episodeCards);
