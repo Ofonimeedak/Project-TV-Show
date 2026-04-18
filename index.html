@@ -15,9 +15,22 @@
 
     <main id="root">
 
+      <!-- filtering container -->
+      <div class="filter-container">
+
+        <select id="episodes">
+          <option disabled>Episodes</option>
+        </select>
+        
+        <span id="episode-count"></span>
+
+        <label>Search <input type="text" id="search" placeholder="Search episodes"></label>
+      </div>
+
       <!-- Episodes container -->
       <div id="episode-container" class="episode-grid"></div>
-
+      <span id="message"></span>
+      
       <!-- Template -->
       <template id="episode-card">
         <article class="episode-card">
