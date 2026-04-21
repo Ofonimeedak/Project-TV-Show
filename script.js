@@ -1,21 +1,35 @@
 let state = {
   films: [],
   searchTerm: "",
-  selectedVAlue: "",
+  selectedValue: "",
 };
+
+const message = document.getElementById("message");
+const container = document.getElementById("episode-container");
+const searchBox = document.getElementById("search");
+const countEpisodes = document.getElementById("episode-count");
+
+const getEpisodeCode = (episode) => {
+  const seasonNo = episode.season.toString().padStart(2, "0");
+  const episodeNo = episode.number.toString().padStart(2, "0");
+  return `S${seasonNo}E${episodeNo}`;
+}
 
 const fetchFilms = async () => {
   try {
     const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
 
     if (!response.ok) {
-      throw new Error(`Error status:${response.status}`);
+      throw new Error(`Error status: ${response.status}`);
     }
     return await response.json();
+
   } catch (error) {
-    container.innerHTML=""
-    const erroMessage=document.getElementById("error").textContent =`${error.message} episode from server, please try again`
-  
+    container.textContent = ""
+    message.textContent = "Unable to load episodes from the server. Please try again later."
+
+    // Return empty array so state.films never becomes undefined
+    return [];
   }
 };
 
@@ -31,12 +45,8 @@ init();
 function createEpisodeCard(episode) {
   const card = document.getElementById("episode-card").content.cloneNode(true);
 
-  const seasonNo = episode.season.toString().padStart(2, "0");
-  const episodeNo = episode.number.toString().padStart(2, "0");
-
   card.querySelector(".episode-name").textContent = episode.name;
-  card.querySelector(".episode-code").textContent =
-    `- S${seasonNo}E${episodeNo}`;
+  card.querySelector(".episode-code").textContent = `- ${getEpisodeCode(episode)}`;
   card.querySelector("img").src = episode.image.medium;
 
   // Using innerHTML because summary contains p tag
@@ -45,40 +55,32 @@ function createEpisodeCard(episode) {
   return card;
 }
 
-const container = document.getElementById("episode-container");
-const searchBox = document.getElementById("search");
-const countEpisodes = document.getElementById("episode-count");
-
 function render() {
+
   container.textContent = "";
 
   const filteredEpisodes = state.films.filter((episode) => {
-    const seasonNo = episode.season.toString().padStart(2, "0");
-    const episodeNo = episode.number.toString().padStart(2, "0");
-    const code = `${seasonNo}-${episodeNo}`;
     const matchesSearch =
       episode.name.toLowerCase().includes(state.searchTerm) ||
       episode.summary.toLowerCase().includes(state.searchTerm);
 
     const matchesDropdown =
-      state.selectedVAlue === "" || state.selectedVAlue === code;
+      state.selectedValue === "" || state.selectedValue === getEpisodeCode(episode);
 
     return matchesSearch && matchesDropdown;
   });
 
   if (filteredEpisodes.length === 0) {
-    const message = document.getElementById("message");
     message.textContent =
       "Your search term is not matching any episodes. Try another term!";
-    message.style.textAlign = "center";
-    message.style.display = "block";
+  } else {
+    message.textContent = "";
   }
 
   const episodeCards = filteredEpisodes.map(createEpisodeCard);
-
   container.append(...episodeCards);
 
-  if (state.searchTerm.length > 0 || state.selectedVAlue != "") {
+  if (state.searchTerm.length > 0 || state.selectedValue !== "") {
     countEpisodes.textContent = `Displaying ${filteredEpisodes.length}/${state.films.length} episodes.`;
   } else {
     countEpisodes.textContent = "";
@@ -88,7 +90,7 @@ function render() {
 searchBox.addEventListener("input", handleInput);
 
 function handleInput() {
-  const term = searchBox.value.toLowerCase();
+  const term = searchBox.value.toLowerCase().trim();
   state.searchTerm = term;
   render();
 }
@@ -96,6 +98,8 @@ function handleInput() {
 // Dropdown filtering
 const dropdown = document.getElementById("episodes");
 function populateDropdown() {
+  dropdown.innerHTML = "";
+
   const option = document.createElement("option");
   option.value = "";
   option.textContent = "All episodes";
@@ -103,20 +107,15 @@ function populateDropdown() {
 
   state.films.forEach((episode) => {
     const option = document.createElement("option");
-    const seasonNo = episode.season.toString().padStart(2, "0");
-    const episodeNo = episode.number.toString().padStart(2, "0");
+    option.value = getEpisodeCode(episode);
 
-    option.value = `${seasonNo}-${episodeNo}`;
-
-    option.textContent = `S${seasonNo}E${episodeNo} - ${episode.name}`;
+    option.textContent = `${getEpisodeCode(episode)} - ${episode.name}`;
     dropdown.append(option);
   });
 }
 
 dropdown.addEventListener("change", () => {
   const selected = dropdown.value;
-  state.selectedVAlue = selected;
+  state.selectedValue = selected;
   render();
 });
-
-render();
