@@ -9,17 +9,24 @@
   </head>
 
   <body>
+
     <header class="header">
-      <h1>Game of Thrones</h1>
+      <h1>Browse Amazing TV Shows</h1>
     </header>
-<p id="error"></p>
+
+    <!-- <p id="error"></p> -->
+
     <main id="root">
 
       <!-- filtering container -->
       <div class="filter-container">
 
-        <select id="episodes">
-          <option disabled>Episodes</option>
+        <select id="tvShowSelect">
+          <!-- <option></option> -->
+        </select>
+
+        <select id="episodesSelect">
+          <!-- <option></option> -->
         </select>
         
         <span id="episode-count"></span>
@@ -28,10 +35,22 @@
       </div>
 
       <!-- Episodes container -->
-      <div id="episode-container" class="episode-grid"></div>
+      <div id="main-container" class="episode-grid"></div>
       <span id="message"></span>
+
+      <!-- TV Shows Template -->
+       <template id="show-card">
+        <article>
+          <h2 class="show-name"></h2>
+          <img alt="TV show image" class="tvshow-img">
+          <span class="rating"></span>
+          <span class="genre"></span>
+          <p class="show-summary"></p>
+          <!-- <h2>title rating gentre runtime status summary</h2> -->
+        </article>
+       </template>
       
-      <!-- Template -->
+      <!-- Episodes template -->
       <template id="episode-card">
         <article class="episode-card">
           <h2 class="episode-title">
@@ -47,10 +66,7 @@
     <footer>
       <p>API Consumed from <a href="https://tvmaze.com/">TVMaze.com</a></p>
     </footer>
-    <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
 
-
-    <!-- Loads YOUR javascript code -->
     <script src="script.js" defer></script>
   </body>
 </html>
