@@ -83,7 +83,9 @@ footer {
   border-radius: 6px;
   font-size: 14px;
   outline: none;
-  transition: border 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 #episode-count {
@@ -123,4 +125,15 @@ footer {
   #episode-count {
     text-align: center;
   }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  width: 100%;
+  justify-content: left;
+  padding: 10px;
+  gap: 5px;
+  box-shadow: 2px 4px 6px;
 }
