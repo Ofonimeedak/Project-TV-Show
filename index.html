@@ -1,15 +1,14 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TV Show Project | Ofonimeedak</title>
-    <link href="style.css" rel="stylesheet">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link href="style.css" rel="stylesheet" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>
 
   <body>
-
     <header class="header">
       <h1>Browse Amazing TV Shows</h1>
     </header>
@@ -17,10 +16,8 @@
     <!-- <p id="error"></p> -->
 
     <main id="root">
-
       <!-- filtering container -->
       <div class="filter-container">
-
         <select id="tvShowSelect">
           <!-- <option></option> -->
         </select>
@@ -28,10 +25,18 @@
         <select id="episodesSelect">
           <!-- <option></option> -->
         </select>
-        
+
         <span id="episode-count"></span>
 
-        <label>Search <input type="text" id="search" placeholder="Search episodes"></label>
+        <label id="label"
+          >Search <input type="text" id="search" placeholder="Search episodes"
+        /></label>
+        <button class="backBtn"></button>
+        <p id="show-count"></p>
+        <label class="label" id="show-search">
+          Filtering for
+          <input id="searchShow" type="text" placeholder="Search Show here"
+        /></label>
       </div>
 
       <!-- Episodes container -->
@@ -39,17 +44,24 @@
       <span id="message"></span>
 
       <!-- TV Shows Template -->
-       <template id="show-card">
+      <template id="show-card">
         <article>
           <h2 class="show-name"></h2>
-          <img alt="TV show image" class="tvshow-img">
-          <span class="rating"></span>
-          <span class="genre"></span>
+          <img alt="TV show image" class="tvshow-img" />
+
           <p class="show-summary"></p>
+          <label class="info">
+            <p class="rating"></p>
+            <p class="genre"></p>
+            <p class="status"></p>
+
+            <p class="runtime"></p>
+          </label>
+
           <!-- <h2>title rating gentre runtime status summary</h2> -->
         </article>
-       </template>
-      
+      </template>
+
       <!-- Episodes template -->
       <template id="episode-card">
         <article class="episode-card">
@@ -57,7 +69,7 @@
             <span class="episode-name"></span>
             <span class="episode-code"></span>
           </h2>
-          <img class="episode-image" alt="episode image">
+          <img class="episode-image" alt="episode image" />
           <p class="episode-summary"></p>
         </article>
       </template>
