@@ -152,7 +152,7 @@ function createEpisodeCard(episode) {
     episode.image?.medium || "placeholder.png";
 
   card.querySelector(".episode-summary").innerHTML =
-    episode.summary || "No summary available.";
+    episode.summary.trim().slice(0,50) || "No summary available.";
 
   return card;
 }
