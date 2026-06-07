@@ -125,6 +125,8 @@ function populateEpisodeDropdown() {
 function createTVShowCard(show) {
   const card = document.getElementById("show-card").content.cloneNode(true);
 
+  card.querySelector(".head-image-container").setAttribute("data-id", show.id);
+
   card.querySelector(".show-name").textContent = show.name;
   card.querySelector(".tvshow-img").src =
     show.image?.medium || "placeholder.png";
@@ -152,7 +154,7 @@ function createEpisodeCard(episode) {
     episode.image?.medium || "placeholder.png";
 
   card.querySelector(".episode-summary").innerHTML =
-    episode.summary.trim()|| "No summary available.";
+    episode.summary.trim() || "No summary available.";
 
   return card;
 }
@@ -246,7 +248,6 @@ searchBox.addEventListener("input", () => {
   }
 });
 
-console.log(showInput);
 showInput.addEventListener("input", () => {
   state.showSearchTerm = showInput.value.toLowerCase();
   renderShows();
@@ -257,6 +258,7 @@ showInput.addEventListener("input", () => {
 
 tvShowSelect.addEventListener("change", async () => {
   state.selectedShowId = tvShowSelect.value;
+  console.log(tvShowSelect.value);
   state.selectedEpisode = "";
   state.searchTerm = "";
   searchBox.value = "";
@@ -288,6 +290,18 @@ backBtn.addEventListener("click", () => {
   backBtn.style.display = "none";
   tvShowSelect.style.display = "block";
   renderShows();
+});
+
+container.addEventListener("click", async (e) => {
+  const titleId = e.target.closest(".head-image-container");
+  const imageId = e.target.closest(".tvshow-img");
+  if (!titleId);
+  const nameId = titleId.dataset.id;
+  console.log(nameId);
+  state.currentEpisodes = await fetchEpisodes(nameId);
+
+  populateEpisodeDropdown();
+  renderEpisodes();
 });
 
 // INIT

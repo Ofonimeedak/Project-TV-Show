@@ -21,9 +21,9 @@ body {
 
 .episode-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 300px));
-  justify-content: center;
-  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 0));
+  justify-content: space-between;
+  gap: 15px;
 }
 
 .episode-card {
@@ -176,4 +176,8 @@ img {
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 18px;
+}
+
+.head-image-container :hover {
+  cursor: pointer;
 }
