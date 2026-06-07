@@ -125,12 +125,10 @@ function populateEpisodeDropdown() {
 function createTVShowCard(show) {
   const card = document.getElementById("show-card").content.cloneNode(true);
 
-  card.querySelector(".head-image-container").setAttribute("data-id", show.id);
-
   card.querySelector(".show-name").textContent = show.name;
   card.querySelector(".tvshow-img").src =
     show.image?.medium || "placeholder.png";
-
+  card.querySelector(".head-image-container").setAttribute("data-id", show.id);
   card.querySelector(".show-summary").innerHTML =
     show.summary || "No summary available.";
 
@@ -219,7 +217,7 @@ function renderEpisodes() {
     return matchesSearch && matchesDropdown;
   });
 
-  if (filteredEpisodes.length === 0) {
+  if (filteredEpisodes.length === 0 || state.currentEpisodes === 0) {
     message.textContent = "No episodes found. Try another term.";
     navBtn();
   }
@@ -248,6 +246,7 @@ searchBox.addEventListener("input", () => {
   }
 });
 
+console.log(showInput);
 showInput.addEventListener("input", () => {
   state.showSearchTerm = showInput.value.toLowerCase();
   renderShows();
@@ -258,7 +257,6 @@ showInput.addEventListener("input", () => {
 
 tvShowSelect.addEventListener("change", async () => {
   state.selectedShowId = tvShowSelect.value;
-  console.log(tvShowSelect.value);
   state.selectedEpisode = "";
   state.searchTerm = "";
   searchBox.value = "";
@@ -293,14 +291,11 @@ backBtn.addEventListener("click", () => {
 });
 
 container.addEventListener("click", async (e) => {
-  const titleId = e.target.closest(".head-image-container");
-  const imageId = e.target.closest(".tvshow-img");
-  if (!titleId);
-  const nameId = titleId.dataset.id;
-  console.log(nameId);
-  state.currentEpisodes = await fetchEpisodes(nameId);
-
-  populateEpisodeDropdown();
+  const headImageContainer = e.target.closest(".head-image-container");
+  if (!headImageContainer) return;
+  const value = headImageContainer.getAttribute("data-id");
+  state.selectedShowId = value;
+  state.currentEpisodes = await fetchEpisodes(value);
   renderEpisodes();
 });
 
